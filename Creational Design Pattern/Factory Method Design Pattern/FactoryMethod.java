@@ -33,37 +33,33 @@ class SlackNotification implements Notification {
 }
 
 // 3) Define an Abstract Creator
-abstract class NotificationCreator{
-    public abstract Notification createNotification();
-    public void send(String message){
-        Notification notify = createNotification();
-        notify.send(message);
-    }
+interface NotificationCreator{
+    public Notification createNotification();
 }
 
 //4) Define Concrete Creators
-class EmailNotificationCreator extends NotificationCreator {
+class EmailNotificationCreator implements NotificationCreator {
     @Override
     public Notification createNotification() {
         return new EmailNotification();
     }
 }
 
-class SMSNotificationCreator extends NotificationCreator {
+class SMSNotificationCreator implements NotificationCreator {
     @Override
     public Notification createNotification() {
         return new SMSNotification();
     }
 }
 
-class PushNotificationCreator extends NotificationCreator {
+class PushNotificationCreator implements NotificationCreator {
     @Override
     public Notification createNotification() {
         return new PushNotification();
     }
 }
 
-class SlackNotificationCreator extends NotificationCreator {
+class SlackNotificationCreator implements NotificationCreator {
     @Override
     public Notification createNotification() {
         return new SlackNotification();
@@ -73,22 +69,26 @@ class SlackNotificationCreator extends NotificationCreator {
 //5) Client Code
 public class FactoryMethod {
     public static void main(String []args){
-        NotificationCreator creator;
+        NotificationCreator notify;
 
         //Send EMAIL
-        creator = new EmailNotificationCreator();
-        creator.send("Welcome to our platform");
+        notify = new EmailNotificationCreator();
+        Notification email = notify.createNotification();
+        email.send("Welcome to our platform");
 
         // Send SMS
-        creator = new SMSNotificationCreator();
-        creator.send("Your OTP is 123456");
+        notify = new SMSNotificationCreator();
+        Notification sms = notify.createNotification();
+        sms.send("Your OTP is 123456");
 
         // Send Push Notification
-        creator = new PushNotificationCreator();
-        creator.send("You have a new follower!");
+        notify = new PushNotificationCreator();
+        Notification push = notify.createNotification();
+        push.send("You have a new follower!");
 
         // Send Slack Message
-        creator = new SlackNotificationCreator();
-        creator.send("Standup in 10 minutes!");
+        notify = new SlackNotificationCreator();
+        Notification slack = notify.createNotification();
+        slack.send("Standup in 10 minutes!");
     }
 }
