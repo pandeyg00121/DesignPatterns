@@ -18,14 +18,14 @@ class SmsNotification implements Notification {
     }
 }
 
-class PushNotification implements Notification {   // ← was likely missing "implements Notification"
+class PushNotification implements Notification {
     @Override
     public void send(String message) {
         System.out.println("Push: " + message);
     }
 }
 
-public class SimpleNoticationFactory {
+public class SimpleNotificationFactory {
     public static Notification createNotification(String type) {
         return switch (type) {
             case "EMAIL" -> new EMAILNotification();
@@ -38,7 +38,7 @@ public class SimpleNoticationFactory {
 
 class NotificationService2 {
     public void sendNotification(String type, String message) {
-        Notification notification = SimpleNoticationFactory.createNotification(type);
+        Notification notification = SimpleNotificationFactory.createNotification(type);
         notification.send(message);
     }
 }
